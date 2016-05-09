@@ -4,6 +4,7 @@
     <title>Chasse au trésor</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="pirate-icon.png" />
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
@@ -68,15 +69,21 @@
             <h3 id="parcoursTitle">{{ content.parcoursTitle[userLang] }}</h3>
             <ul id="questions-nav" class="nav nav-pills nav-justified col-sm-12">
                 <li id="item{{itemIndex}}" ng-repeat="(itemIndex, item) in questions" 
-                    ng-class="{active: itemIndex == itemSuivant}">
-                    <a id="link{{itemIndex}}" class="big-bold" data-toggle="pill" href="#question{{itemIndex}}">{{ content.tabTitle[userLang] }} {{itemIndex + 1 }}</a>
+                    ng-class="{'active': itemIndex == itemSuivant}">
+                    <a id="link{{itemIndex}}" class="big-bold" 
+                       data-toggle="pill" href="#question{{itemIndex}}">
+                        {{ content.tabTitle[userLang] }} {{itemIndex + 1 }}</a>
                 </li>
             </ul>
         </div>
         <tabset id="questions-tabs" class="tab-content col-sm-12">   
-            <tab id="question{{itemIndex}}" class="tab-pane fade in col-sm-12" ng-repeat="(itemIndex, item) in questions"  ng-class="{active: itemIndex == itemSuivant}">
+            <br />  
+            <tab id="question{{itemIndex}}" 
+                 class="tab-pane col-sm-12 fade in" ng-class="{'active': itemIndex == itemSuivant}"
+                 ng-repeat="(itemIndex, item) in questions">
                 <div id="title" class="col-sm-12">
-                    <img id="questionImage" class="picto img-responsive img-circle" ng-src="{{ item.questionImage }}">
+                    <img id="questionImage" class="picto img-responsive img-circle" 
+                         ng-src="{{ item.questionImage }}">
                     <h3 id="questionTitle">{{ item.questionTitle[userLang] }}</h3>
                     <p id="questionText" class="big">{{ item.questionText[userLang] }}</p>
                 </div>
@@ -116,7 +123,7 @@
                 <div id="indices" class="col-sm-4">
                     <h3 id="indicesTitle" class="">{{ content.indicesTitle[userLang] }}</h3>
                     <div id="indicesButtons" class="" ng-repeat="(indicIndex, indic) in item.indices">
-                        <div id="info-{{ indicIndex }}" class="well-sm alert spacer1" role="alert" 
+                        <div id="info-{{ indicIndex }}" class="well-sm alert alert-info spacer1" role="alert" 
                              ng-show="afficher" 
                              ng-class="[{'alert-primary' : indicIndex == 0}, {'alert-warning' : indicIndex == 1}, {'alert-danger' : indicIndex == 2}]">
                             <strong>{{ indic[userLang]}}</strong>
@@ -124,11 +131,13 @@
                         <button type="button" class="btn spacer2" ng-click="afficher = true" 
                                 ng-hide="afficher" ng-class="[{'btn-primary' : indicIndex == 0}, {'btn-warning' : indicIndex == 1}, {'btn-danger' : indicIndex == 2}]">
                             {{ content.commons.buttons[indicIndex][userLang] }}&nbsp;&nbsp;
-                            <span class="badge">{{ content.commons.buttonValue[indicIndex][userLang] }}</span></button>
+<!--                             <span class="badge">{{ content.commons.buttonValue[indicIndex][userLang] }}</span> -->
+                        </button>
                     </div>
                 </div>
                 <div id="control" class="col-sm-4">
                     <h3 id="controlTitle" class="">{{ content.controlTitle[userLang] }}</h3>
+                    <p id="controlText" class="">{{ content.controlText[userLang] }}</p>
                     <button id="eureka" type="button" class="btn btn-success" 
                             data-toggle="collapse" data-target="#check" 
                             ng-hide="reponse" ng-click="reponse = true">
