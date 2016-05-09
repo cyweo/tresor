@@ -11,13 +11,6 @@
           "name" : "Français",
           "icon" : "uk.png"}          
     },       
-    "testOptions" : [{
-        "answer" : "false"
-    },{
-        "answer" : "true"
-    },{
-        "answer" : "false"
-    }],       
     "label" : {
       "fr" : "Votre langue",
       "en" : "Your language"
@@ -65,7 +58,11 @@
     "controlTitle" : {
       "fr" : "Réponse",
       "en" : "Answer"
-    },    
+    },
+    "controlText" : {
+      "fr" : "Pour savoir si tu as trouvé le trésor, clique sur le bouton et réponds à la question posée.",
+      "en" : "To discover if you found the treasure, click the button and answer the question."      
+    },
     "checkTitle" : {
       "fr" : "Vérifions si tu as bien trouvé le trésor",
       "en" : ""
@@ -312,10 +309,6 @@
         "again" : {
           "fr" : "Essaie encore",
           "en" : "Try again"
-        },            
-        "invite" : {
-            "fr" : "Tu peux passser au",
-            "en" : "You can go to the next"
-        }           
+        }          
     }
 }
