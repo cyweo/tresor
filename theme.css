@@ -1,0 +1,107 @@
+body {
+    font: 14px Open Sans, sans-serif;
+}
+.page-header {
+    margin-top: 10px;
+}
+.fixed {
+    z-index: 9000;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+.fixed + .container {
+    padding-top: 50px;
+}
+.shadow{
+box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+}
+.fade {
+opacity: 0;
+-webkit-transition: opacity 1.5s linear;
+  -moz-transition: opacity 1.5s linear;
+   -ms-transition: opacity 1.5s linear;
+	-o-transition: opacity 1.5s linear;
+	   transition: opacity 1.5s linear;
+}
+h1, h2, h3 {
+    color: #337ab7;
+}
+table {
+    width: 50%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid grey;
+    padding: 5px;
+    text-align: left;
+}
+table tr:nth-child(odd) {
+    background-color: #f1f1f1;
+}
+td.right{
+    text-align:right
+}
+.flag{
+/*     float: left; */
+    width: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+.picto{
+    float: left;
+    width: 80px;
+    margin-right: 10px;
+}
+.picto-sm{
+    float: left;
+    width: 40px;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+.picto-md{
+    float: left;
+    width: 60px;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+.icon{
+    height: 50px;
+}
+.map{
+    width: 1000px;
+    height: 500px;
+}
+#questions-nav{
+    margin-bottom: 10px
+}
+.spacer1{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.spacer2{
+    margin-top: 7px;
+    margin-bottom: 7.1px;
+}
+.big-bold{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.big{
+    font-size: 1.15em;
+}
+.carte-container{
+  position: relative;
+}
+.carte-zoom{
+  position: absolute;
+  right: 50px;
+  bottom: 30px;
+}
+hr{
+  color: #333;
+}
+.indent{
+  margin-left: 40px;
+}
