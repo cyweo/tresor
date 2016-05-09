@@ -16,7 +16,7 @@ body {
 .shadow{
 box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
 }
-.fade {
+.fade in{
 opacity: 0;
 -webkit-transition: opacity 1.5s linear;
   -moz-transition: opacity 1.5s linear;
