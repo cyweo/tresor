@@ -123,26 +123,25 @@
                 <div id="indices" class="col-sm-4">
                     <h3 id="indicesTitle" class="">{{ content.indicesTitle[userLang] }}</h3>
                     <div id="indicesButtons" class="" ng-repeat="(indicIndex, indic) in item.indices">
-                        <div id="info-{{ indicIndex }}" class="well-sm alert alert-info spacer1" role="alert" 
-                             ng-show="afficher" 
-                             ng-class="[{'alert-primary' : indicIndex == 0}, {'alert-warning' : indicIndex == 1}, {'alert-danger' : indicIndex == 2}]">
-                            <strong>{{ indic[userLang]}}</strong>
-                        </div>                       
                         <button type="button" class="btn spacer2" ng-click="afficher = true" 
                                 ng-hide="afficher" ng-class="[{'btn-primary' : indicIndex == 0}, {'btn-warning' : indicIndex == 1}, {'btn-danger' : indicIndex == 2}]">
                             {{ content.commons.buttons[indicIndex][userLang] }}&nbsp;&nbsp;
 <!--                             <span class="badge">{{ content.commons.buttonValue[indicIndex][userLang] }}</span> -->
                         </button>
+                        <div id="info-{{ indicIndex }}" class="well-sm alert alert-info spacer1" role="alert" 
+                             ng-show="afficher" 
+                             ng-class="[{'alert-primary' : indicIndex == 0}, {'alert-warning' : indicIndex == 1}, {'alert-danger' : indicIndex == 2}]">
+                            <strong>{{ indic[userLang]}}</strong>
+                        </div>                       
                     </div>
                 </div>
                 <div id="control" class="col-sm-4">
                     <h3 id="controlTitle" class="">{{ content.controlTitle[userLang] }}</h3>
                     <p id="controlText" class="">{{ content.controlText[userLang] }}</p>
                     <button id="eureka" type="button" class="btn btn-success" 
-                            data-toggle="collapse" data-target="#check"
-                           ng-hide="reponse" ng-click="reponse = true;gogo()">
+                            data-toggle="collapse" data-target="#check" ng-hide="reponse" ng-click="reponse = true">
                         {{ content.commons.eureka[userLang] }}</button>
-                    <div id="check" class="panel panel-primary collapse" ng-show="reponse">
+                    <div id="check" class="panel panel-primary" ng-show="reponse">
                         <div id="checkTitle" class="panel-heading">
                             {{ content.checkTitle[userLang] }}
                         </div>
@@ -152,16 +151,15 @@
                             </div>
                             <div ng-repeat="(verifIndex, verif) in item.checkOptions">
                                 <br />
-                                <button type="submit" 
-                                        data-toggle="collapse" data-target="#check-{{ checkAnswer.active }}" 
+                                <button type="submit" data-toggle="collapse" data-target="#check-{{ checkAnswer.active }}" 
                                         class="btn btn-sm btn-default indent" 
                                         ng-class="[{'btn-success': checkAnswer.active == 'true'  && verif.answer == 'true' && checkAnswer.button == verifIndex},{'btn-danger' : checkAnswer.active == 'false' && verif.answer == 'false' && checkAnswer.button == verifIndex}]" 
-                                        ng-click="resetCheck();checkAnswer.active=verif.answer;checkAnswer.button=verifIndex;checkValue()">
+                                        ng-click="resetCheck();checkAnswer.active=verif.answer;checkAnswer.button=verifIndex;checkValue();">
                                     {{ verif[userLang] }}
                                 </button><br />
                             </div>
                             <div id="switch" ng-switch on="check">
-                                <div id="check-true" ng-switch-when="true" class="collapse">
+                                <div id="check-true" ng-switch-when="true">
                                     <br />
                                     <p id="reponseText" class="well-sm alert-success"><strong>{{ content.reponseTitle[userLang] }}</strong><br /><br />
                                     {{ item.reponseText[userLang] }}<br /><br />
@@ -169,7 +167,7 @@
                                     <button id="suivant" type="button" class="btn btn-warning" ng-click="resetCheck();changeTresor()">{{ content.commons.suivant[userLang] }}</button>
                                     </p>
                                 </div>
-                                <div id="check-false" ng-switch-when="false" ng-hide="again" class="collapse">
+                                <div id="check-false" ng-switch-when="false" ng-hide="again">
                                     <br />
                                     <p id="error" class="well-sm alert-danger"><strong>{{ content.errorTitle[userLang] }}</strong><br /><br />
                                     {{ content.errorText[userLang] }}<br /><br />
@@ -219,9 +217,9 @@
             };
             $scope.itemMax = $scope.questions.length - 1;
             $scope.changeTresor = function() {
-                $scope.itemSuivant += 1;
+                $scope.itemSuivant += 1;               
                 if ( $scope.itemSuivant > $scope.itemMax ) {
-                    $scope.itemSuivant = 0;
+                    $scope.itemSuivant = 0;                   
                 }
             };
             $scope.checkAnswer = {};
@@ -233,10 +231,11 @@
             $scope.resetCheck = function() {
                 $scope.checkAnswer.active = "";
                 $scope.check = "";
-                $scope.reponse = "false";
+                $scope.again = "";
+                $scope.reponse = "";
             };
-            $scope.gogo = function() {
-                $log.log("reponse : "+$scope.reponse+" check"+$scope.check);         
+            $scope.gogo = function(x) {
+                $log.log("valeur : "+x);
             }
         });
     });
