@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="theme.css"> 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>    
-<!--     here <script src="tresor.js"></script> -->
+<!--     <script src="tresor.js"></script> -->
 </head>
 <body ng-controller="langCtrl">
     <nav class="navbar navbar-inverse fixed shadow">
@@ -139,8 +139,8 @@
                     <h3 id="controlTitle" class="">{{ content.controlTitle[userLang] }}</h3>
                     <p id="controlText" class="">{{ content.controlText[userLang] }}</p>
                     <button id="eureka" type="button" class="btn btn-success" 
-                            data-toggle="collapse" data-target="#check" 
-                            ng-hide="reponse" ng-click="reponse = true">
+                            data-toggle="collapse" data-target="#check"
+                           ng-hide="reponse" ng-click="reponse = true;gogo()">
                         {{ content.commons.eureka[userLang] }}</button>
                     <div id="check" class="panel panel-primary collapse" ng-show="reponse">
                         <div id="checkTitle" class="panel-heading">
@@ -155,7 +155,7 @@
                                 <button type="submit" 
                                         data-toggle="collapse" data-target="#check-{{ checkAnswer.active }}" 
                                         class="btn btn-sm btn-default indent" 
-                                        ng-class="[{'btn-success': checkAnswer.active == 'true'  && verif.answer == 'true' && checkAnswer.button == verifIndex},{'btn-danger' : checkAnswer.active == 'false' && verif.answer == 'false' && checkAnswer.button == verifIndex}] " 
+                                        ng-class="[{'btn-success': checkAnswer.active == 'true'  && verif.answer == 'true' && checkAnswer.button == verifIndex},{'btn-danger' : checkAnswer.active == 'false' && verif.answer == 'false' && checkAnswer.button == verifIndex}]" 
                                         ng-click="resetCheck();checkAnswer.active=verif.answer;checkAnswer.button=verifIndex;checkValue()">
                                     {{ verif[userLang] }}
                                 </button><br />
@@ -229,10 +229,14 @@
             $scope.checkAnswer.button = "";
             $scope.checkValue = function() {
                 $scope.check = $scope.checkAnswer.active;         
-            }
+            };
             $scope.resetCheck = function() {
                 $scope.checkAnswer.active = "";
                 $scope.check = "";
+                $scope.reponse = "false";
+            };
+            $scope.gogo = function() {
+                $log.log("reponse : "+$scope.reponse+" check"+$scope.check);         
             }
         });
     });
