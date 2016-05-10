@@ -91,7 +91,6 @@
                     <h3 id="carteTitle" class="">{{ content.carteTitle[userLang] }}</h3>
                     <div id="carteContainer" class="carte-container">
                         <div id="carteButton" class="carte-zoom">
-<!--                        Déclencheur de modale -->
                             <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#carteZoom{{itemIndex}}">
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
@@ -99,10 +98,9 @@
                         <img id="carteImage" class="img-responsive img-rounded" ng-src="{{ item.carteImage }}">    
                     </div>
                     <p id="carteCaption" class="text-primary text-center">{{ item.carteCaption[userLang] }}</p>
-<!--                Block modale début -->
+<!--                Bloc modale carte -->
                     <div id="carteZoom{{itemIndex}}" class="modal fade" role="dialog">
                         <div class="modal-dialog">
-                            <!-- Modal content-->
                             <div id="modal" class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -118,21 +116,18 @@
                                     <button type="button" class="btn btn-default" data-dismiss="modal">{{ content.commons.fermer[userLang] }}</button>
                                 </div>
                             </div>
-                            <!-- End of modal -->
                         </div>
                     </div>
-<!--                Block modale fin -->
                 </div>
                 <div id="indices" class="col-sm-4">
                     <h3 id="indicesTitle" class="">{{ content.indicesTitle[userLang] }}</h3>
                     <div id="indicesButtons" class="" ng-repeat="(indicIndex, indic) in item.indices">
-                        <button type="button" class="btn spacer2" ng-click="afficher = true" 
-                                ng-hide="afficher" ng-class="[{'btn-primary' : indicIndex == 0}, {'btn-warning' : indicIndex == 1}, {'btn-danger' : indicIndex == 2}]">
+                        <button type="button" class="btn spacer2" ng-click="afficher[indicIndex] = true" 
+                                ng-hide="afficher[indicIndex]" ng-class="[{'btn-primary' : indicIndex == 0}, {'btn-warning' : indicIndex == 1}, {'btn-danger' : indicIndex == 2}]">
                             {{ content.commons.buttons[indicIndex][userLang] }}&nbsp;&nbsp;
-<!--                             <span class="badge">{{ content.commons.buttonValue[indicIndex][userLang] }}</span> -->
                         </button>
                         <div id="info-{{ indicIndex }}" class="well-sm alert alert-info spacer1" role="alert" 
-                             ng-show="afficher" 
+                             ng-show="afficher[indicIndex]" 
                              ng-class="[{'alert-primary' : indicIndex == 0}, {'alert-warning' : indicIndex == 1}, {'alert-danger' : indicIndex == 2}]">
                             <strong>{{ indic[userLang]}}</strong>
                         </div>                       
@@ -140,13 +135,12 @@
                 </div>
                 <div id="control" class="col-sm-4">
                     <h3 id="controlTitle" class="">{{ content.controlTitle[userLang] }}</h3>
-                    <p id="controlText" class="">{{ content.controlText[userLang] }}</p>
-<!--                     j'ai trouvé : reponse -->
+                    <p id="controlText" class="" ng-hide="checkReponse[itemIndex]">{{ content.controlText[userLang] }}</p>
                     <button id="eureka" type="button" class="btn btn-success" 
-                            data-toggle="collapse" data-target="#check" ng-hide="$scope.reponse" 
-                            ng-click="$scope.reponse = 'true'">
+                            data-toggle="collapse" data-target="#check" ng-hide="checkReponse[itemIndex]"; 
+                            ng-click="checkReponse[itemIndex] = true;checkReponse(checkReponse[itemIndex])">
                         {{ content.commons.eureka[userLang] }}</button>
-                    <div id="check" class="panel panel-primary" ng-show="$scope.reponse">
+                    <div id="check" class="panel panel-primary" ng-show="checkReponse[itemIndex]">
                         <div id="checkTitle" class="panel-heading">
                             {{ content.checkTitle[userLang] }}
                         </div>
@@ -163,76 +157,43 @@
                                     {{ verif[userLang] }}
                                 </button><br />
                             </div>
-                            <div id="switch" ng-switch on="check">
-<!-- Modale ok                                 -->
-<!--                Bloc modale début -->
-        <div id="modal-true-{{itemIndex}}" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div id="modal" class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 id="win{{itemIndex}}" class="text-success">{{ content.reponseTitle[userLang] }}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p id="reponseText{{itemIndex}}" class="well-sm alert-success">{{ item.reponseText[userLang] }}<br /><br />
-                            {{ content.commons.invite[userLang] }}&nbsp;&nbsp;
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="changeTresor()">{{ content.commons.suivant[userLang] }}</button>
-                    </div>
-                </div>
-                <!-- End of modal -->
-            </div>
-        </div>
-<!--                Block modale fin -->                                
-                           
-<!--                         Bloc ok       -->
-<!--                         <div id="check-true" ng-switch-when="true">
-                            <br />
-                            <p id="reponseText" class="well-sm alert-success"><strong>{{ content.reponseTitle[userLang] }}</strong><br /><br />
-                            {{ item.reponseText[userLang] }}<br /><br />
-                            {{ content.commons.invite[userLang] }}&nbsp;&nbsp;
-<!--                                     suivant  -->
-                            <button id="suivant" type="button" class="btn btn-warning" 
-                                    ng-click="changeTresor()">
-                                {{ content.commons.suivant[userLang] }}</button>
-<!--                             </p> -->
-                        </div> -->
-                                
-<!-- Modale KO                                 -->
-<!--                Bloc modale début -->
-        <div id="modal-false-{{itemIndex}}" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div id="modal" class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 id="error{{itemIndex}}" class="text-danger">{{ content.errorTitle[userLang] }}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p id="error" class="well-sm alert-danger">{{ content.errorText[userLang] }}</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">
-                            {{ content.commons.again[userLang] }}</button>
-                    </div>
-                </div>
-                <!-- End of modal -->
-            </div>
-        </div>
-<!--                Block modale fin -->                                    
-
-<!--                                 Bloc KO -->
-<!--                                 <div id="check-false" ng-switch-when="false" ng-hide="again">
-                                    <br />
-                                    <p id="error" class="well-sm alert-danger"><strong>{{ content.errorTitle[userLang] }}</strong><br /><br />
-                                    {{ content.errorText[userLang] }}<br /><br />
-                                    <button id="againButton" type="button" class="btn btn-danger" ng-click="again = true;resetCheck()">{{ content.commons.again[userLang] }}</button>                        
-                                    </p>
-                                </div>  -->
-                                
-                            </div>    
+<!--                Bloc modale true -->
+                            <div id="modal-true-{{itemIndex}}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div id="modal" class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 id="win{{itemIndex}}" class="text-success">{{ content.reponseTitle[userLang] }}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p id="reponseText{{itemIndex}}" class="well-sm alert-success">{{ item.reponseText[userLang] }}<br /><br />
+                                                {{ content.commons.invite[userLang] }}&nbsp;&nbsp;
+                                                <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="changeTresor()">{{ content.commons.suivant[userLang] }}</button>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- End of modal -->
+                                </div>
+                            </div>            
+<!--                Bloc modale false -->
+                            <div id="modal-false-{{itemIndex}}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div id="modal" class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 id="error{{itemIndex}}" class="text-danger">{{ content.errorTitle[userLang] }}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p id="error" class="well-sm alert-danger">{{ content.errorText[userLang] }}&nbsp;&nbsp;
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                {{ content.commons.again[userLang] }}</button></p>
+                                        </div>
+                                    </div>
+                                    <!-- End of modal -->
+                                </div>
+                            </div>                            
                         </div> 
                     </div>
                 </div>
@@ -240,7 +201,7 @@
         </tabset>
     </div>
     <br/ >
-    <div id="footer" class="container navbar well-sm alert-info"> 
+    <div id="footer" class="container well-sm alert-info"> 
         <p>&#169; 2016 cyweo.com - Jeux</p>
     </div>
     <script>
@@ -270,38 +231,33 @@
             $scope.selectLang = {};
             $scope.selectLang.active = $scope.userLang;
             $scope.itemSuivant = 0;
-            $scope.reponse = ""
-            $log.log(" itemSuivant : "+$scope.itemSuivant);
+            $scope.reponse = "";
             $scope.changeLang = function() {
                 $scope.userLang = $scope.selectLang.active.toString();
             };
-            $scope.itemMax = $scope.questions.length - 1;
-            $scope.changeTresor = function() {
-                $scope.itemSuivant = $scope.itemSuivant + 1;
-                $scope.checkAnswer.active = "";
-                $scope.check = "";
-                $scope.again = "";
-                $scope.reponse = "";
-                $log.log("itemMax : "+$scope.itemMax+" itemSuivant : "+$scope.itemSuivant);
-                if ( $scope.itemSuivant > $scope.itemMax ) {
-                    $scope.itemSuivant = 0;
-                    $scope.reponse = "false";
-                    $log.log("itemMax >> : "+$scope.itemMax+" itemSuivant : "+$scope.itemSuivant);                    
-                }
-            };
-            $log.log(" itemSuivant après fn: "+$scope.itemSuivant);
+            $scope.checkReponse = {};
             $scope.checkAnswer = {};
             $scope.checkAnswer.active = "";
             $scope.checkAnswer.button = "";
             $scope.checkValue = function() {
                 $scope.check = $scope.checkAnswer.active;         
             };
+            $scope.itemMax = $scope.questions.length - 1;
+            $scope.changeTresor = function() {
+                $scope.itemSuivant += 1;
+                $scope.checkAnswer.active = "";             
+                if ( $scope.itemSuivant > $scope.itemMax ) {
+                    $scope.itemSuivant = 0;
+                    angular.forEach($scope.checkReponse, function (value, index) {
+                        $scope.checkReponse[index] = "";
+                    });                                    
+                }
+            };
+            $scope.checkReponse = function(x) {
+                $log.log("checkReponse[itemIndex] : "+x);    
+            }
             $scope.resetCheck = function() {
                 $scope.checkAnswer.active = "";
-                $scope.check = "";
-                $scope.again = "";
-                $scope.reponse = "";
-                $log.log("reset: "+$scope.itemSuivant+" reponse : "+$scope.reponse);
             };
         });
     });

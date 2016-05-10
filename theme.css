@@ -13,6 +13,9 @@ body {
 .fixed + .container {
     padding-top: 50px;
 }
+.modal {
+	margin-top: 50px;
+}
 .shadow{
 box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
 }
