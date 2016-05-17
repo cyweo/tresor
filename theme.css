@@ -17,11 +17,11 @@ body {
 	margin-top: 50px;
 }
 .shadow{
-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
 }
 .fade in{
-opacity: 0;
--webkit-transition: opacity 1.5s linear;
+	opacity: 0;
+	-webkit-transition: opacity 1.5s linear;
   -moz-transition: opacity 1.5s linear;
    -ms-transition: opacity 1.5s linear;
 	-o-transition: opacity 1.5s linear;
@@ -44,6 +44,10 @@ table tr:nth-child(odd) {
 }
 td.right{
     text-align:right
+}
+.not-active {
+   pointer-events: none;
+   cursor: default;
 }
 .flag{
 /*     float: left; */

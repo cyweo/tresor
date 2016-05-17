@@ -1,266 +1,299 @@
 <!DOCTYPE html>
 <html ng-app="tresor">
 <head>
-    <title>Chasse au trésor</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="pirate-icon.png" />
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">    
-    <link rel="stylesheet" type="text/css" href="theme.css"> 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>    
-<!--     <script src="tresor.js"></script> -->
+  <title>Chasse au trésor</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="pirate-icon.png" />
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.2/ui-bootstrap-tpls.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.2/ui-bootstrap.js"></script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">  
+  <link rel="stylesheet" type="text/css" href="theme.css"> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+<!--   <script src="tresor.js"></script> -->
 </head>
 <body ng-controller="langCtrl">
-    <nav class="navbar navbar-inverse fixed shadow">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#Navbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>                        
-                </button>
-                <img id="siteImage" class="picto-sm img-responsive img-rounded" ng-src="{{ content.siteImage }}">
-                <a class="navbar-brand" href="#">{{content.siteName[userLang] }}</a>
-            </div>
-            <div class="collapse navbar-collapse" id="Navbar">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">{{ content.chasseTitle[userLang] }}</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">                   
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;{{ content.label[userLang] }}
-                            <span class="caret"></span>
-                        </a>
-                        <ul id="selectLang" class="nav dropdown-menu">
-                            <li class="" ng-repeat="x in langs" ng-class="{'active': x.code == selectLang.active}" ng-click="selectLang.active=x.code;changeLang()">
-                                <a href="#"><img ng-src="{{ x.code}}.png" class="flag">{{ x.name }}</a>
-                            </li>
-                        </ul>                        
-                    </li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;{{ content.loginTitle[userLang] }}</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>   
-    <div class="container">        
-        <div id="title" class="page-header">
-            <img id="headerImage" class="picto img-responsive img-rounded" src="coffre.jpg">
-            <h1><span id="chasseTitle">{{ content.chasseTitle[userLang] }}</span></h1>
-            <p id="chasseText">{{ content.chasseText[userLang] }}</p>
-        </div>
-        <div id="info" class="col-sm-12">
-            <div id="alert" class="alert alert-info fade in" role="alert">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <img id="siteImage" class="picto img-responsive img(-rounded)" ng-src="{{content.siteImage }}">
-                <p class="big">
-                    <strong>{{ content.parcoursExplainTitle[userLang] }}</strong>
-                  <br /><br />{{ content.parcoursExplainText[userLang] }}
-                </p>
-                <div class="text-right">
-                  <button type="button" class="btn btn-success" data-dismiss="alert">{{ content.commons.start[userLang] }}</button>
-                </div>
-            </div>
-        </div>
-        <div id="parcours" class="col-sm-12">
-            <h3 id="parcoursTitle">{{ content.parcoursTitle[userLang] }}</h3>
-            <ul id="questions-nav" class="nav nav-pills nav-justified col-sm-12">
-                <li id="item{{itemIndex}}" ng-repeat="(itemIndex, item) in questions" 
-                    ng-class="{'active': itemIndex == itemSuivant}">
-                    <a id="link{{itemIndex}}" class="big-bold" 
-                       data-toggle="pill" href="#question{{itemIndex}}">
-                        {{ content.tabTitle[userLang] }} {{itemIndex + 1 }}</a>
-                </li>
-            </ul>
-        </div>
-        <tabset id="questions-tabs" class="tab-content col-sm-12">   
-            <br />  
-            <tab id="question{{itemIndex}}" 
-                 class="tab-pane col-sm-12 fade in" ng-class="{'active': itemIndex == itemSuivant}"
-                 ng-repeat="(itemIndex, item) in questions">
-                <div id="title" class="col-sm-12">
-                    <img id="questionImage" class="picto img-responsive img-circle" 
-                         ng-src="{{ item.questionImage }}">
-                    <h3 id="questionTitle">{{ item.questionTitle[userLang] }}</h3>
-                    <p id="questionText" class="big">{{ item.questionText[userLang] }}</p>
-                </div>
-                <div id="carte" class="col-sm-4 carte">
-                    <h3 id="carteTitle" class="">{{ content.carteTitle[userLang] }}</h3>
-                    <div id="carteContainer" class="carte-container">
-                        <div id="carteButton" class="carte-zoom">
-                            <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#carteZoom{{itemIndex}}">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </div>
-                        <img id="carteImage" class="img-responsive img-rounded" ng-src="{{ item.carteImage }}">    
-                    </div>
-                    <p id="carteCaption" class="text-primary text-center">{{ item.carteCaption[userLang] }}</p>
-<!--                Bloc modale carte -->
-                    <div id="carteZoom{{itemIndex}}" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                            <div id="modal" class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <img id="questionImage" class="picto-md img-responsive img-circle" ng-src="{{ item.questionImage }}">
-                                        <h4 id="questionTitle">{{ item.questionTitle[userLang] }}</h4>
-                                        <p id="questionText" class="medium">{{ item.questionText[userLang] }}</p>
-                                </div>
-                                <div class="modal-body">
-                                    <img id="carteImage_modal" class="img-responsive img-rounded" ng-src="{{ item.carteImage }}">
-                                    <p id="carteCaption_modal" class="text-primary text-center">{{ item.carteCaption[userLang] }}</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ content.commons.fermer[userLang] }}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="indices" class="col-sm-4">
-                    <h3 id="indicesTitle" class="">{{ content.indicesTitle[userLang] }}</h3>
-                    <div id="indicesButtons" class="" ng-repeat="(indicIndex, indic) in item.indices">
-                        <button type="button" class="btn spacer2" ng-click="afficher[indicIndex] = true" 
-                                ng-hide="afficher[indicIndex]" ng-class="[{'btn-primary' : indicIndex == 0}, {'btn-warning' : indicIndex == 1}, {'btn-danger' : indicIndex == 2}]">
-                            {{ content.commons.buttons[indicIndex][userLang] }}&nbsp;&nbsp;
-                        </button>
-                        <div id="info-{{ indicIndex }}" class="well-sm alert alert-info spacer1" role="alert" 
-                             ng-show="afficher[indicIndex]" 
-                             ng-class="[{'alert-primary' : indicIndex == 0}, {'alert-warning' : indicIndex == 1}, {'alert-danger' : indicIndex == 2}]">
-                            <strong>{{ indic[userLang]}}</strong>
-                        </div>                       
-                    </div>
-                </div>
-                <div id="control" class="col-sm-4">
-                    <h3 id="controlTitle" class="">{{ content.controlTitle[userLang] }}</h3>
-                    <p id="controlText" class="" ng-hide="checkReponse[itemIndex]">{{ content.controlText[userLang] }}</p>
-                    <button id="eureka" type="button" class="btn btn-success" 
-                            data-toggle="collapse" data-target="#check" ng-hide="checkReponse[itemIndex]"; 
-                            ng-click="checkReponse[itemIndex] = true;checkReponse(checkReponse[itemIndex])">
-                        {{ content.commons.eureka[userLang] }}</button>
-                    <div id="check" class="panel panel-primary" ng-show="checkReponse[itemIndex]">
-                        <div id="checkTitle" class="panel-heading">
-                            {{ content.checkTitle[userLang] }}
-                        </div>
-                        <div class="panel-body">
-                            <div id="checkQuestion" class="">
-                                {{ item.checkQuestion[userLang] }}
-                            </div>
-                            <div ng-repeat="(verifIndex, verif) in item.checkOptions">
-                                <br />
-                                <button type="submit" data-toggle="modal" data-target="#modal-{{ checkAnswer.active }}-{{itemIndex}}" 
-                                        class="btn btn-sm btn-default indent" 
-                                        ng-class="[{'btn-success': checkAnswer.active == 'true'  && verif.answer == 'true' && checkAnswer.button == verifIndex},{'btn-danger' : checkAnswer.active == 'false' && verif.answer == 'false' && checkAnswer.button == verifIndex}]" 
-                                        ng-click="resetCheck();checkAnswer.active=verif.answer;checkAnswer.button=verifIndex;checkValue();">
-                                    {{ verif[userLang] }}
-                                </button><br />
-                            </div>
-<!--                Bloc modale true -->
-                            <div id="modal-true-{{itemIndex}}" class="modal fade" role="dialog">
-                                <div class="modal-dialog">
-                                    <!-- Modal content-->
-                                    <div id="modal" class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                <h4 id="win{{itemIndex}}" class="text-success">{{ content.reponseTitle[userLang] }}</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p id="reponseText{{itemIndex}}" class="well-sm alert-success">{{ item.reponseText[userLang] }}<br /><br />
-                                                {{ content.commons.invite[userLang] }}&nbsp;&nbsp;
-                                                <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="changeTresor()">{{ content.commons.suivant[userLang] }}</button>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <!-- End of modal -->
-                                </div>
-                            </div>            
-<!--                Bloc modale false -->
-                            <div id="modal-false-{{itemIndex}}" class="modal fade" role="dialog">
-                                <div class="modal-dialog">
-                                    <!-- Modal content-->
-                                    <div id="modal" class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                <h4 id="error{{itemIndex}}" class="text-danger">{{ content.errorTitle[userLang] }}</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p id="error" class="well-sm alert-danger">{{ content.errorText[userLang] }}&nbsp;&nbsp;
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
-                                                {{ content.commons.again[userLang] }}</button></p>
-                                        </div>
-                                    </div>
-                                    <!-- End of modal -->
-                                </div>
-                            </div>                            
-                        </div> 
-                    </div>
-                </div>
-            </tab>
-        </tabset>
+  <nav class="navbar navbar-inverse fixed shadow">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#Navbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>            
+        </button>
+        <img id="siteImage" class="picto-sm img-responsive img-rounded" ng-src="{{ content.siteImage }}">
+        <a class="navbar-brand" href="#">{{content.siteName[userLang] }}</a>
+      </div>
+      <div class="collapse navbar-collapse" id="Navbar">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">{{ content.chasseTitle[userLang] }}</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">           
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;{{ content.label[userLang] }}
+              <span class="caret"></span>
+            </a>
+            <ul id="selectLang" class="nav dropdown-menu">
+              <li class="" ng-repeat="x in langs" ng-class="{'active': x.code == selectLang.active}" ng-click="selectLang.active=x.code;changeLang()">
+                <a href="#"><img ng-src="{{ x.code}}.png" class="flag">{{ x.name }}</a>
+              </li>
+            </ul>            
+          </li>
+          <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;{{ content.loginTitle[userLang] }}</a></li>
+        </ul>
+      </div>
     </div>
-    <br/ >
-    <div id="footer" class="container well-sm alert-info"> 
-        <p>&#169; 2016 cyweo.com - Jeux</p>
+  </nav>   
+  <div class="container">    
+    <div id="title" class="page-header">
+      <img id="headerImage" class="picto img-responsive img-rounded" ng-src="{{ content.tresorImage }}">
+      <h1><span id="chasseTitle">{{ content.chasseTitle[userLang] }}</span></h1>
+      <p id="chasseText">{{ content.chasseText[userLang] }}</p>
     </div>
-    <script>
-    var app = angular.module("tresor", []);     
-    app.controller('langCtrl', function($scope, $http, $window, $log) {
-        $scope.userLang = $window.navigator.language || $window.navigator.userLanguage; 
-        $http.get("translations_tresor.js")
-        .then(function (response) {
-            $scope.content = response.data;
-            $scope.questions = $scope.content.questions;
-            $scope.langs = $scope.content.languages;
-            var defaultLang = "";
-            var listLang = [];            
-            angular.forEach($scope.content.languages, function(value, key) {
-                if (value.default == "true") {
-                    defaultLang = key;
-                }
-                else {
-                    this.push(key);
-                }
-                this.push(key);
-            }, listLang);        
-            if(listLang.indexOf($scope.userLang) == -1) {
-                $scope.userLang = defaultLang; 
-            };
-            $scope.userLang = "fr";
-            $scope.selectLang = {};
-            $scope.selectLang.active = $scope.userLang;
-            $scope.itemSuivant = 0;
-            $scope.reponse = "";
-            $scope.changeLang = function() {
-                $scope.userLang = $scope.selectLang.active.toString();
-            };
-            $scope.checkReponse = {};
-            $scope.checkAnswer = {};
-            $scope.checkAnswer.active = "";
-            $scope.checkAnswer.button = "";
-            $scope.checkValue = function() {
-                $scope.check = $scope.checkAnswer.active;         
-            };
-            $scope.itemMax = $scope.questions.length - 1;
-            $scope.changeTresor = function() {
-                $scope.itemSuivant += 1;
-                $scope.checkAnswer.active = "";             
-                if ( $scope.itemSuivant > $scope.itemMax ) {
-                    $scope.itemSuivant = 0;
-                    angular.forEach($scope.checkReponse, function (value, index) {
-                        $scope.checkReponse[index] = "";
-                    });                                    
-                }
-            };
-            $scope.checkReponse = function(x) {
-                $log.log("checkReponse[itemIndex] : "+x);    
-            }
-            $scope.resetCheck = function() {
-                $scope.checkAnswer.active = "";
-            };
-        });
+    <div id="info" class="col-sm-12">
+      <div id="alert" class="alert alert-info fade in" role="alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <img id="siteImage" class="picto img-responsive img(-rounded)" ng-src="{{ content.pirateImage }}">
+        <p class="big">
+          <strong>{{ content.parcoursExplainTitle[userLang] }}</strong>
+          <br /><br />{{ content.parcoursExplainText[userLang] }}
+        </p>
+        <div class="text-right">
+          <button type="button" class="btn btn-success" data-dismiss="alert">{{ content.commons.start[userLang] }}</button>
+        </div>
+      </div>
+    </div>
+    <div id="parcours" class="col-sm-12">
+      <h3 id="parcoursTitle">{{ content.parcoursTitle[userLang] }}</h3>
+      <ul id="questions-nav" class="nav nav-pills nav-justified col-sm-12">
+        <li id="item{{itemIndex}}" ng-repeat="(itemIndex, item) in questions" 
+          class="pill"
+          ng-class="[{'active': itemIndex == itemSuivant}]">
+          <a id="link{{itemIndex}}" class="big-bold"
+            ng-class="{'not-active' : itemIndex != itemSuivant}">
+            {{ content.tabTitle[userLang] }} {{itemIndex + 1 }}</a>
+        </li>
+      </ul>
+    </div>
+    <tabset id="questions-tabs" class="tab-content col-sm-12">   
+      <br />  
+      <tab id="question{{itemIndex}}" 
+         class="tab-pane col-sm-12 fade in" ng-class="{'active': itemIndex == itemSuivant}"
+         ng-repeat="(itemIndex, item) in questions">
+        <div id="title" class="col-sm-12">
+          <img id="questionImage" class="picto img-responsive img-circle" 
+             ng-src="{{ item.questionImage }}">
+          <h3 id="questionTitle">{{ item.questionTitle[userLang] }}</h3>
+          <p id="questionText" class="big">{{ item.questionText[userLang] }}</p>
+        </div>
+        <div id="carte" class="col-sm-4 carte">
+          <h3 id="carteTitle" class="">{{ content.carteTitle[userLang] }}</h3>
+          <div id="carteContainer" class="carte-container">
+            <div id="carteButton" class="carte-zoom">
+              <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#carteZoom{{itemIndex}}">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </div>
+            <img id="carteImage" class="img-responsive img-rounded" ng-src="{{ item.carteImage }}">  
+          </div>
+          <p id="carteCaption" class="text-primary text-center">{{ item.carteCaption[userLang] }}</p>
+<!--        Bloc modale carte -->
+          <div id="carteZoom{{itemIndex}}" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <div id="modal" class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <img id="questionImage" class="picto-md img-responsive img-circle" ng-src="{{ item.questionImage }}">
+                    <h4 id="questionTitle">{{ item.questionTitle[userLang] }}</h4>
+                    <p id="questionText" class="medium">{{ item.questionText[userLang] }}</p>
+                </div>
+                <div class="modal-body">
+                  <img id="carteImage_modal" class="img-responsive img-rounded" ng-src="{{ item.carteImage }}">
+                  <p id="carteCaption_modal" class="text-primary text-center">{{ item.carteCaption[userLang] }}</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">{{ content.commons.fermer[userLang] }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="indices" class="col-sm-4">
+          <h3 id="indicesTitle" class="">{{ content.indicesTitle[userLang] }}</h3>
+          <div id="indicesButtons" class="" ng-repeat="(indicIndex, indic) in item.indices">
+            <button type="button" class="btn spacer2" ng-click="afficher[indicIndex] = true" 
+                ng-hide="afficher[indicIndex]" ng-class="[{'btn-primary' : indicIndex == 0}, {'btn-warning' : indicIndex == 1}, {'btn-danger' : indicIndex == 2}]">
+              {{ content.commons.buttons[indicIndex][userLang] }}&nbsp;&nbsp;
+            </button>
+            <div id="info-{{ indicIndex }}" class="well-sm alert alert-info spacer1" role="alert" 
+               ng-show="afficher[indicIndex]" 
+               ng-class="[{'alert-primary' : indicIndex == 0}, {'alert-warning' : indicIndex == 1}, {'alert-danger' : indicIndex == 2}]">
+              <strong>{{ indic[userLang]}}</strong>
+            </div>             
+          </div>
+        </div>
+        <div id="control" class="col-sm-4">
+          <h3 id="controlTitle" class="">{{ content.controlTitle[userLang] }}</h3>
+          <p id="controlText" class="" ng-hide="checkReponse[itemIndex]">{{ content.controlText[userLang] }}</p>
+          <button id="eureka" type="button" class="btn btn-success" 
+              data-toggle="collapse" data-target="#check" ng-hide="checkReponse[itemIndex]"; 
+              ng-click="checkReponse[itemIndex] = true;checkReponse(itemIndex,checkReponse[itemIndex])">
+            {{ content.commons.eureka[userLang] }}</button>
+          <div id="check" class="panel panel-primary" ng-show="checkReponse[itemIndex]">
+            <div id="checkTitle" class="panel-heading">
+              {{ content.checkTitle[userLang] }}
+            </div>
+            <div class="panel-body">
+              <div id="checkQuestion" class="">
+                {{ item.checkQuestion[userLang] }}
+              </div>
+              <div ng-repeat="(verifIndex, verif) in item.checkOptions">
+                <br />
+                <button type="submit" data-toggle="modal" data-target="#modal-{{ checkAnswer.active }}-{{itemIndex}}" 
+                    class="btn btn-sm btn-default indent" 
+                    ng-class="[{'btn-success': checkAnswer.active == 'true'  && verif.answer == 'true' && checkAnswer.button == verifIndex},{'btn-danger' : checkAnswer.active == 'false' && verif.answer == 'false' && checkAnswer.button == verifIndex}]" 
+                    ng-click="resetCheck();checkAnswer.active=verif.answer;checkAnswer.button=verifIndex;checkValue();">
+                  {{ verif[userLang] }}
+                </button><br />
+              </div>
+<!--        Bloc modale true -->
+              <div id="modal-true-{{itemIndex}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div id="modal-true-internal-{{itemIndex}}" class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 id="win{{itemIndex}}" class="text-success">{{ content.reponseTitle[userLang] }}</h4>
+                    </div>
+                    <div class="modal-body">
+                      <p id="reponseText{{itemIndex}}" class="well-sm alert-success">{{ item.reponseText[userLang] }}<br /><br />
+                        {{ content.commons.invite[userLang] }}&nbsp;&nbsp;
+                        <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="changeTresor()">{{ content.commons.suivant[userLang] }}</button>
+                      </p>
+                    </div>
+                  </div>
+                  <!-- End of modal -->
+                </div>
+              </div>      
+<!--        Bloc modale false -->
+              <div id="modal-false-{{itemIndex}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div id="modal-false-internal-{{itemIndex}}" class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 id="error{{itemIndex}}" class="text-danger">{{ content.errorTitle[userLang] }}</h4>
+                    </div>
+                    <div class="modal-body">
+                      <p id="error" class="well-sm alert-danger">{{ content.errorText[userLang] }}&nbsp;&nbsp;
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        {{ content.commons.again[userLang] }}</button></p>
+                    </div>
+                  </div>
+                  <!-- End of modal -->
+                </div>
+              </div>
+    <!--        Bloc modale victoire -->
+              <div id="victoire" modal="showModal" close="cancel()" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <div id="modal-victoire-internal" class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <img id="persoImage" class="img-responsive img-circle" ng-src="{{ content.pirateImage }}">
+                      tresorImage
+                      <h4 id="victoireTitle">{{ content.victoire.victoireTitle[userLang] }}</h4>
+                    </div>
+                    <div class="modal-body">
+                      <p id="victoireText" class="medium">{{ content.victoire.victoireText[userLang] }}</p>
+                      <img id="victoireImage" class="img-responsive img-rounded" ng-src="{{ content.tresorImage }}">
+                    </div>
+                    <div class="modal-footer center">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal">{{ content.victoire.boutonFin[userLang] }}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>              
+            </div> 
+          </div>
+        </div>
+      </tab>
+    </tabset>
+  </div>
+  <br/ >
+  <div id="footer" class="container well-sm alert-info"> 
+    <p>&#169; 2016 cyweo.com - Jeux</p>
+  </div>
+  <script>
+  var app = angular.module("tresor", ["ui.bootstrap.modal"]);   
+  app.controller('langCtrl', function($scope, $http, $window, $log) {
+    $scope.userLang = $window.navigator.language || $window.navigator.userLanguage; 
+    $http.get("translations_tresor.js")
+    .then(function (response) {
+      $scope.content = response.data;
+      $scope.questions = $scope.content.questions;
+      $scope.langs = $scope.content.languages;
+      $scope.victoire = $scope.content.victoire;
+      var defaultLang = "";
+      var listLang = [];      
+      angular.forEach($scope.content.languages, function(value, key) {
+        if (value.default == "true") {
+          defaultLang = key;
+        }
+        else {
+          this.push(key);
+        }
+        this.push(key);
+      }, listLang);    
+      if(listLang.indexOf($scope.userLang) == -1) {
+        $scope.userLang = defaultLang; 
+      };
+      $scope.userLang = "fr";
+      $scope.selectLang = {};
+      $scope.selectLang.active = $scope.userLang;
+      $scope.itemSuivant = 3;
+      $scope.reponse = "";
+      $scope.changeLang = function() {
+        $scope.userLang = $scope.selectLang.active.toString();
+      };
+      $scope.checkReponse = {};
+      $scope.checkAnswer = {};
+      $scope.checkAnswer.active = "";
+      $scope.checkAnswer.button = "";
+      $scope.checkValue = function() {
+        $scope.check = $scope.checkAnswer.active;     
+      };
+      $scope.itemMax = $scope.questions.length - 1;
+      $scope.changeTresor = function() {
+        $scope.itemSuivant += 1;
+        $scope.checkAnswer.active = "";       
+        if ( $scope.itemSuivant > $scope.itemMax ) {
+          $scope.itemSuivant = 0;
+          angular.forEach($scope.checkReponse, function (value, index) {
+            $scope.checkReponse[index] = "";
+          });                  
+$(document).ready(function(){
+    // Show the Modal on load
+    $("#victoire").modal("show");
+});
+          //           var element = angular.open('#victoire');
+//           element.modals('show');
+          $log.log("ici"); 
+//               var ctrl = element.controller();
+//               ctrl.setModel(scope.blub);
+        }
+      };
+      $scope.checkReponse = function(y,x) {
+        $log.log("itemIndex : "+y+" checkReponse[itemIndex] : "+x);  
+      };
+      $scope.resetCheck = function() {
+        $scope.checkAnswer.active = "";
+      };
     });
-    </script>  
+  });
+  </script>  
 </body>
 </html>
